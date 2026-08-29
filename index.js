@@ -1,1 +1,2 @@
-console.log("Start of backend project");
+console.log("Starting a new backend project");
+  
