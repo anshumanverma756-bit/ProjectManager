@@ -21,4 +21,4 @@
   }
  }
 
- export {ApiError};
+ export {ApiError}
