@@ -1,5 +1,4 @@
-import {ApiResponse} from "../uitles/api_response.js";
-
+import { ApiResponse } from "../uitles/api_response.js";
 
 const healthCheck = (req, res) =>{
   try {
