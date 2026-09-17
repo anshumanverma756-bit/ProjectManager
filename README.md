@@ -1,2 +1,2 @@
 # ProjectManager
-it will mage project and will tell multiple members to work on same project 
+it will mage project and will let multiple members to work on same project 
