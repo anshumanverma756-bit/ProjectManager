@@ -12,7 +12,7 @@ const emailVerificationMailgenContent = (username, verificationUrl) => {
           text: "Verify your email",
           link: verificationUrl,
         },
-      },
+      },   
       outro:
         "Need help, or have questions? Just reply to this email, we'd love to help.",
     },
