@@ -20,8 +20,8 @@ const healthCheck = async (req, res ,next) =>{
 
 //writing the same function by=ut with async handler now 
 
-const healthCheck = asyncHandler(async (req, rea) => {
-  resizeBy.status(200).json(new ApiResponse(200, { message: "Server is running" }));
+const healthCheck = asyncHandler(async (req, res) => {
+  res.status(200).json(new ApiResponse(200, { message: "Server is running" }));
 });
 // this is the better peace of code as we do not have to write the cathc  fucntion
 
