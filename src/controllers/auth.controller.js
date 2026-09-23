@@ -13,7 +13,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(409, "User with email or username already exists");
   }
-
+  
   const user = await User.create({
     email,
     username,
@@ -21,7 +21,6 @@ const registerUser = asyncHandler(async (req, res) => {
     role,
     isEmailVerified: false,
   });
-
   return res.status(201).json(
     new ApiResponse(201, { user }, "User registered successfully")
   );
