@@ -39,9 +39,12 @@ const registerUser = asyncHandler(async (req, res) => {
     isEmailVerified: false,
   });
  const {unHashedToken, hashedToken, tokenExpiry} = user.generateTemporaryToken();
-  return res.status(201).json(
-    new ApiResponse(201, { user }, "User registered successfully")
-  );
+  
+
+ user.emailVerificationToken = hashedToken
+ user.emailVerificationexpiry = tokenExpiry
+
+ await user.save({validateBeforeSave: false})
 });
 
 export { registerUser };
