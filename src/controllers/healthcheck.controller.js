@@ -1,6 +1,6 @@
-import { ApiResponse } from "../uitles/api_response.js";
+import { ApiResponse } from "../utils/api_response.js";
 // as we have async handler 
-import { asyncHandler } from "../uitles/async_handler.js";
+import { asyncHandler } from "../utils/async_handler.js";
 
 /**
 const healthCheck = async (req, res ,next) =>{

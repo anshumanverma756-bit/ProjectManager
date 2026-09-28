@@ -4,7 +4,7 @@
    
 
   const router = Router();
-  router.route("/register").post (registrUser);
+  router.route("/register").post (registerUser);
    
 
   export default router;
