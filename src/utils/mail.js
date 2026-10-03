@@ -8,7 +8,17 @@ const sendEmail = async (options) => {
       name : "Task Manager",
       link: "https://taskmanagelink.com "
     }
-   })
+   });
+
+const mailGenerator = new Mailgen({
+  theme: "default",
+  product: {
+    name: "Mailgen",
+    link: "https://mailgen.js/"
+  }
+});
+
+
  const emailTextual = mailGenerator.generatePlaintext(options.mailgenContent)
  const emailHTML  = mailGenerator.generate(options.mailgenContent)
  
