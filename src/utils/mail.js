@@ -13,15 +13,14 @@ const sendEmail = async (options) => {
   const emailTextual = mailGenerator.generatePlaintext(options.mailgenContent);
   const emailHTML = mailGenerator.generate(options.mailgenContent);
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.MAILTRAP_SMTP_HOST,
-    port: Number(process.env.MAILTRAP_SMTP_PORT),
-    auth: {
-      user: process.env.MAILTRAP_SMTP_USER,
-      pass: process.env.MAILTRAP_SMTP_PASS,
-    },
-  });
-
+const transporter = nodemailer.createTransport({
+  host: process.env.MAILTRAP_SMTP_HOST,
+  port: Number(process.env.MAILTRAP_SMTP_PORT),
+  auth: {
+    user: process.env.MAILTRAP_SMTP_USER,
+    pass: process.env.MAILTRAP_SMTP_PASS,
+  },
+});
   const mail = {
     from: "mail.taskmanager@example.com",
     to: options.email,
@@ -29,7 +28,7 @@ const sendEmail = async (options) => {
     text: emailTextual,
     html: emailHTML,
   };
-
+console.log("HOST:", process.env.MAILTRAP_SMTP_HOST, "PORT:", process.env.MAILTRAP_SMTP_PORT);
   try {
     await transporter.sendMail(mail);
     console.log("Email sent to", options.email);
