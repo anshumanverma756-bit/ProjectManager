@@ -88,6 +88,38 @@ const login = asyncHandler(async (req, res) => {
   if (!isPasswordValid){
     throw new ApiError(400, "Invalid cerdentials");
   }
+
+
+  const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
+
+
+   const loggedInUser = await User.findById(user._id).select(
+  "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
+);
+   
+const options = {
+  httpOnly: true,
+  secure: true
+
+}
+
+
+return res
+   .status(200)
+   .cookies("accessToken",accessToken, options)
+   .cookies("refreshToken",refreshToken, options)
+   .json(
+    new ApiResponse(
+      200,
+      {
+        user:loggedInUser,
+        accessToken,
+        refreshToken
+      },
+      "User logged in successfully"
+    )
+   )
+
 });
 
 export {registerUser, login};
