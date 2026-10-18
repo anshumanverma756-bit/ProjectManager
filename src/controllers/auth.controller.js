@@ -70,6 +70,24 @@ const registerUser = asyncHandler(async (req, res) => {
   )
 });
 
-const login = asyncHandler(async (req, res) => {});
+const login = asyncHandler(async (req, res) => {
+  const{email, password, username} =  req.body
+  if(!username || !email){
+    throw new ApiError(400,"Username or email is required")
+  }
+
+  const user = await User.findOne({email});
+  
+  if (!user){
+    throw new ApiError(400, "User does not exit ")
+  }
+  
+  const isPasswordValid = await user.isPasswordCorrect(password);
+
+
+  if (!isPasswordValid){
+    throw new ApiError(400, "Invalid cerdentials");
+  }
+});
 
 export {registerUser, login};
