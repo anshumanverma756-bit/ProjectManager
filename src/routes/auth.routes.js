@@ -11,6 +11,4 @@ router.route("/register").post (userRegisterValidator() , validate,registerUser)
 
 router.route("/login").post(userLoginValidator() , validate ,login);
    
-   
-
 export default router;
