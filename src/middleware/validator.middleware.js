@@ -1,18 +1,13 @@
 import { validationResult } from "express-validator";
-import {ApiError} from "../utils/api_error.js";
+import { ApiError } from "../utils/api_error.js";
 
+export const validate = (req, res, next) => {
+  const errors = validationResult(req);
 
-export const validate  = (req, res,next) => {
-  const errors = validationResult(req)
-  if (errors.isEmpty()){
-    return next;
+  if (errors.isEmpty()) {
+    return next();               // if this line is missing, the request hangs
   }
-  const extractedErrors = [] 
-  errors.array().map((err) => extractedErrors.push({
 
-    [err.path]: err.msg
-  
-  }));
-  throw new ApiError(422,"Recieved data is not valid", extractedErrors)
-}; 
-// this part is the design of validators creation of middlewares
+  const extractedErrors = errors.array().map((err) => ({ [err.path]: err.msg }));
+  throw new ApiError(422, "Received data is not valid", extractedErrors);
+};

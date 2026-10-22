@@ -72,18 +72,19 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
   const{email, password, username} =  req.body
-  if(!username || !email){
-    throw new ApiError(400,"Username or email is required")
-  }
+ if (!username && !email) {
+  throw new ApiError(400, "Username or email is required");
+}
+console.log("1. login hit", req.body);
 
   const user = await User.findOne({email});
-  
+  console.log("2. user found:", !!user);
   if (!user){
     throw new ApiError(400, "User does not exit ")
   }
   
   const isPasswordValid = await user.isPasswordCorrect(password);
-
+  console.log("3. password checked");
 
   if (!isPasswordValid){
     throw new ApiError(400, "Invalid cerdentials");
@@ -91,34 +92,27 @@ const login = asyncHandler(async (req, res) => {
 
 
   const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
-
+  console.log("4. tokens generated");
 
    const loggedInUser = await User.findById(user._id).select(
   "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
 );
-   
 const options = {
   httpOnly: true,
-  secure: true
-
-}
-
-
+  secure: process.env.NODE_ENV === "production",
+};
 return res
-   .status(200)
-   .cookies("accessToken",accessToken, options)
-   .cookies("refreshToken",refreshToken, options)
-   .json(
+  .status(200)
+  .cookie("accessToken", accessToken, options)
+  .cookie("refreshToken", refreshToken, options)
+  .json(
     new ApiResponse(
       200,
-      {
-        user:loggedInUser,
-        accessToken,
-        refreshToken
-      },
+      { user: loggedInUser, accessToken, refreshToken },
       "User logged in successfully"
     )
-   )
+  );
+  
 
 });
 
