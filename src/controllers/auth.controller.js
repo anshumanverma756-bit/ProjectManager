@@ -112,8 +112,13 @@ return res
       "User logged in successfully"
     )
   );
-  
-
 });
 
-export {registerUser, login};
+
+const logoutUser = asyncHandler(async(req,res)=>{
+  await User.findByIdAndUpdate(
+    req.user._id,
+  )
+})
+
+export { registerUser, login };
