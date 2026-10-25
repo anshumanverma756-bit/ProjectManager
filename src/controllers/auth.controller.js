@@ -1,4 +1,4 @@
-import { User } from "../modles/user.models.js";
+import { User } from "../models/user.models.js";
 import { ApiResponse } from "../utils/api_response.js";
 import { ApiError } from "../utils/api_error.js";
 import { asyncHandler } from "../utils/async_handler.js";
@@ -135,6 +135,6 @@ const logoutUser = asyncHandler(async(req,res)=>{
   .clearCookie("accessToken", options)
   .clearCookie("refreshToken", options)
   .json(new ApiResponse(200,{},"User logged out"));
-})
+});
 
 export { registerUser, login ,logoutUser};
