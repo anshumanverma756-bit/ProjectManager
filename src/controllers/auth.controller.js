@@ -169,8 +169,26 @@ const verifyEmail = asyncHandler (async(req,res) => {
     if(!user){
       throw new ApiError(400, "Token is invalid or expiry")
     }
+    
+    user.emailVerficationToken = undefined 
+    user.emailVerficationExpiry= undefined
+
+
+
     user.isEmailVerified = true
     await useReducer.save({validateBeforeSave: false})
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          {
+            isEmailVerified: true,
+          },
+          "Email is verified",
+        )
+      )
 })
 
 
