@@ -270,8 +270,22 @@ const refreshAccessToken = asyncHandler(async (req, res) =>{
     throw new ApiError(401, "Invalid refresh token")
 
   }
-  
+});
 
+const forgotPasswordRequest = asyncHandler(async(req,res)=>{
+  const {email} = req.body
+
+  const user =await User.findOne({email})
+
+  if(!user){
+    throw new ApiError(404, "User does not exists", [])
+  }
+  
+  const {unHashedToken, hashedToken, tokenExpiry} =
+  user.generateTemporaryToken();
+
+  user.forgotPasswordToken = hashedToken
+  user.forgotPasswordExpiry = tokenExpiry
 })
 
 
