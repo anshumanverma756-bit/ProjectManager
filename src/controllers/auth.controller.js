@@ -318,10 +318,24 @@ const resetForgotPassword = asyncHandler(async (req, res) => {
     .update(resetToken)
     .digest("hex")
 
-    await User.findOne({
-      forgotPasswordExpiry
+    const user = await User.findOne({
+      forgotPasswordToken: hashedToken,
+      forgotPasswordExpiry: {$gt: Date.now()}
     })
+
+    if (!user){
+      throw new ApiError(489, "token is invlaid or expired")
+    }
+    user.forgotPasswordExpiry = undefined
+    user.forgotPasswordToken = undefined
+
+    user.password = newPassword
+    await user.save({validateBeforeSave: false})
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {},"password reset successfully"));
 })
 
 
-export { registerUser, login ,logoutUser,getCurrentUser, verifyEmail, resendEmailVerfication ,refreshAccessToken,forgotPasswordRequest};
+export { registerUser, login ,logoutUser,getCurrentUser, verifyEmail, resendEmailVerfication ,refreshAccessToken,forgotPasswordRequest, resetForgotPassword};
