@@ -11,5 +11,9 @@ const projectSchema = new Schema({
   },
   createdBy:{
     type: Schema.Types.ObjectId,
+    ref: "User",
+    required:true 
   }
 },{timestamps: true})
+
+export const project = mongoose.model("project", projectSchema);
